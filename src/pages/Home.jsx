@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
+import Cart from '../components/Cart';
 
 class Home extends Component {
   render() {
     return (
-      <button>
-
-      </button>
+      <Cart />
     );
   }
 }

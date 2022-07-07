@@ -7,23 +7,24 @@ class Cart extends Component {
     super();
 
     this.state = {
-      selectedItems: [],
+      cartProducts: [],
     };
   }
 
-  getItems
+  noProductsMessage = () => {
+    const { cartProducts } = this.state;
+
+    if (cartProducts.length === 0) {
+      return (
+        <span data-testid="shopping-cart-empty-message">Seu carrinho está vazio</span>
+      );
+    }
+  }
 
   render() {
-    const { selectedItems } = this.state;
-    const emptyCartMessage = (
-      <p data-testid="shopping-cart-empty-message">
-        Seu carrinho está vazio
-      </p>);
     return (
       <div>
-        { selectedItems.length > 0
-          ? cartItems.map((item) => item.something) // it'll show all the items according to the requisite 1 API
-          : emptyCartMessage }
+        { this.noProductsMessage() }
       </div>
     );
   }
