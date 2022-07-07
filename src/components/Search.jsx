@@ -2,7 +2,6 @@ import React from 'react';
 
 import PropTypes from 'prop-types';
 
-
 class Search extends React.Component {
   constructor() {
     super();
@@ -18,12 +17,10 @@ class Search extends React.Component {
     });
   }
 
-
   handleCartButton = () => {
     const { history } = this.props;
     history.push('/cart');
   }
-
 
   render() {
     const { search } = this.state;
@@ -43,7 +40,6 @@ class Search extends React.Component {
           </p>
         ) }
 
-
         <button
           data-testid="shopping-cart-button"
           type="button"
@@ -52,12 +48,10 @@ class Search extends React.Component {
           Ver carrinho de compras
         </button>
 
-
       </div>
     );
   }
 }
-
 
 Search.propTypes = {
   history: PropTypes.string.isRequired,
