@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import ProductCard from './ProductCard';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 
-class Search extends Component {
+class Search extends React.Component {
   constructor() {
     super();
 
