@@ -13,7 +13,7 @@ class Search extends Component {
     };
   }
 
-  onHandleChange = ({ target }) => {
+  onInputChange = ({ target }) => {
     const { value } = target;
     this.setState({ table: value });
   }
@@ -39,7 +39,7 @@ class Search extends Component {
         <input
           type="text"
           data-testid="query-input"
-          onChange={ this.onHandleChange }
+          onChange={ this.onInputChange }
           value={ table }
         />
         <button
