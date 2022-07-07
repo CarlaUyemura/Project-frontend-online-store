@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ProductCard from './ProductCard';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 
-class Search extends Component {
+class Search extends React.Component {
   constructor() {
     super();
 
@@ -22,6 +22,11 @@ class Search extends Component {
     const { table } = this.state;
     const data = await getProductsFromCategoryAndQuery(table);
     this.setState({ products: data, setSearch: true });
+  }
+
+  handleCartButton = () => {
+    const { history } = this.props;
+    history.push('/cart');
   }
 
   render() {
@@ -62,6 +67,21 @@ class Search extends Component {
                 />))}
             </div>
           )}
+        { search.length === 0 && (
+          <p
+            data-testid="home-initial-message"
+          >
+            Digite algum termo de pesquisa ou escolha uma categoria.
+          </p>
+        ) }
+
+        <button
+          data-testid="shopping-cart-button"
+          type="button"
+          onClick={ this.handleCartButton }
+        >
+          Ver carrinho de compras
+        </button>
       </div>
     );
   }
