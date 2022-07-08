@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ProductCard from './ProductCard';
-import { getProductsFromCategoryAndQuery, getCategories, getProductsQuery } from '../services/api';
+import { getProductsFromCategoryAndQuery,
+  getCategories,
+  getProductsQuery } from '../services/api';
 import CategoryCard from './CategoryCard';
 
 class Search extends React.Component {
