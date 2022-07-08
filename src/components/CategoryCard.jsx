@@ -3,7 +3,7 @@ import React from 'react';
 
 class CategoryCard extends React.Component {
   render() {
-    const { id, name } = this.props;
+    const { id, name, onRadioChange } = this.props;
     return (
       <div>
         <label
@@ -16,6 +16,7 @@ class CategoryCard extends React.Component {
             name="category"
             value={ name }
             id={ id }
+            onChange={ onRadioChange }
           />
         </label>
       </div>
@@ -26,6 +27,7 @@ class CategoryCard extends React.Component {
 CategoryCard.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  onRadioChange: PropTypes.func.isRequired,
 };
 
 export default CategoryCard;
