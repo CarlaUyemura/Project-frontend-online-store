@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ProductCard from './ProductCard';
+import { getProductsFromCategoryAndQuery, getCategories } from '../services/api';
+import CategoryCard from './CategoryCard';
 
 class Search extends React.Component {
   constructor() {
@@ -10,7 +12,19 @@ class Search extends React.Component {
       products: [],
       setSearch: false,
       table: '',
+      categories: [],
     };
+  }
+
+  componentDidMount() {
+    this.getCategoryNames();
+  }
+
+  getCategoryNames = async () => {
+    const response = await getCategories();
+    this.setState({
+      categories: response,
+    });
   }
 
   onInputChange = ({ target }) => {
@@ -19,15 +33,10 @@ class Search extends React.Component {
   }
 
   onHandleClick = async () => {
-    async function getProductsFromCategoryAndQuery(categoryId, query) {
-      const url = `https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}_ID&q=${query}`;
-      const response = await fetch(url);
-      const obj = await response.json();
-      return obj.results;
-    }
     const { table } = this.state;
     const data = await getProductsFromCategoryAndQuery(table);
-    this.setState({ products: data, setSearch: true });
+    const resultData = data.results;
+    this.setState({ products: resultData, setSearch: true });
   }
 
    handleCartButton = () => {
@@ -36,7 +45,7 @@ class Search extends React.Component {
    }
 
    render() {
-     const { products, table, setSearch } = this.state;
+     const { products, table, setSearch, categories } = this.state;
      const flagResult = setSearch
        ? <div>Nenhum produto foi encontrado</div>
        : (
@@ -68,7 +77,6 @@ class Search extends React.Component {
          >
            Ver carrinho de compras
          </button>
-
          {products.length === 0
            ? (flagResult)
            : (
@@ -82,13 +90,26 @@ class Search extends React.Component {
                  />))}
              </div>
            )}
+         <aside>
+           {
+             categories.map(({ id, name }) => (
+               <CategoryCard
+                 key={ id }
+                 id={ id }
+                 name={ name }
+               />
+             ))
+           }
+         </aside>
        </div>
      );
    }
 }
 
-export default Search;
-
 Search.propTypes = {
-  history: PropTypes.string.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
+
+export default Search;
