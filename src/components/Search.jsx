@@ -36,6 +36,7 @@ class Search extends React.Component {
     const { table } = this.state;
     const data = await getProductsFromCategoryAndQuery(table);
     const resultData = data.results;
+    console.log(resultData);
     this.setState({ products: resultData, setSearch: true });
   }
 
