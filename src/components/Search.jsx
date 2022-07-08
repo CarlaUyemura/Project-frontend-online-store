@@ -60,6 +60,15 @@ class Search extends React.Component {
          >
            Search
          </button>
+
+         <button
+           data-testid="shopping-cart-button"
+           type="button"
+           onClick={ this.handleCartButton }
+         >
+           Ver carrinho de compras
+         </button>
+
          {products.length === 0
            ? (flagResult)
            : (
