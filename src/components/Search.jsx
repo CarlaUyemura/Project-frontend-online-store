@@ -1,60 +1,85 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
+import ProductCard from './ProductCard';
 
 class Search extends React.Component {
   constructor() {
     super();
+
     this.state = {
-      search: '',
+      products: [],
+      setSearch: false,
+      table: '',
     };
   }
 
-  handleChange = ({ target }) => {
-    const { name, value } = target;
-    this.setState({
-      [name]: value,
-    });
+  onInputChange = ({ target }) => {
+    const { value } = target;
+    this.setState({ table: value });
   }
 
-  handleCartButton = () => {
-    const { history } = this.props;
-    history.push('/cart');
+  onHandleClick = async () => {
+    async function getProductsFromCategoryAndQuery(categoryId, query) {
+      const url = `https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}_ID&q=${query}`;
+      const response = await fetch(url);
+      const obj = await response.json();
+      return obj.results;
+    }
+    const { table } = this.state;
+    const data = await getProductsFromCategoryAndQuery(table);
+    this.setState({ products: data, setSearch: true });
   }
 
-  render() {
-    const { search } = this.state;
-    return (
-      <div>
-        <input
-          type="text"
-          name="search"
-          value={ search }
-          onChange={ this.handleChange }
-        />
-        { search.length === 0 && (
-          <p
-            data-testid="home-initial-message"
-          >
-            Digite algum termo de pesquisa ou escolha uma categoria.
-          </p>
-        ) }
+   handleCartButton = () => {
+     const { history } = this.props;
+     history.push('/cart');
+   }
 
-        <button
-          data-testid="shopping-cart-button"
-          type="button"
-          onClick={ this.handleCartButton }
-        >
-          Ver carrinho de compras
-        </button>
-
-      </div>
-    );
-  }
+   render() {
+     const { products, table, setSearch } = this.state;
+     const flagResult = setSearch
+       ? <div>Nenhum produto foi encontrado</div>
+       : (
+         <div
+           data-testid="home-initial-message"
+         >
+           Digite algum termo de pesquisa ou escolha uma categoria.
+         </div>);
+     return (
+       <div>
+         <input
+           type="text"
+           data-testid="query-input"
+           onChange={ this.onInputChange }
+           value={ table }
+         />
+         <button
+           type="button"
+           data-testid="query-button"
+           onClick={ this.onHandleClick }
+         >
+           Search
+         </button>
+         {products.length === 0
+           ? (flagResult)
+           : (
+             <div>
+               {products.map(({ id, title, price, thumbnail }) => (
+                 <ProductCard
+                   key={ id }
+                   title={ title }
+                   price={ price }
+                   thumbnail={ thumbnail }
+                 />))}
+             </div>
+           )}
+       </div>
+     );
+   }
 }
+
+export default Search;
 
 Search.propTypes = {
   history: PropTypes.string.isRequired,
 };
-
-export default Search;
