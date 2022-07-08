@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ProductCard from './ProductCard';
-import { getProductsFromCategoryAndQuery } from '../services/api';
 
 class Search extends React.Component {
   constructor() {
@@ -20,6 +19,12 @@ class Search extends React.Component {
   }
 
   onHandleClick = async () => {
+    async function getProductsFromCategoryAndQuery(categoryId, query) {
+      const url = `https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}_ID&q=${query}`;
+      const response = await fetch(url);
+      const obj = await response.json();
+      return obj.results;
+    }
     const { table } = this.state;
     const data = await getProductsFromCategoryAndQuery(table);
     this.setState({ products: data, setSearch: true });
