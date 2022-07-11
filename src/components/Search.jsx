@@ -94,17 +94,26 @@ class Search extends React.Component {
            : (
              <div>
                {products.map(({ id, title, price, thumbnail }) => (
-                 <Link
-                   data-testid="product-detail-link"
-                   key={ id }
-                   to={ `/product/${id}` }
-                 >
-                   <ProductCard
-                     title={ title }
-                     price={ price }
-                     thumbnail={ thumbnail }
-                   />
-                 </Link>))}
+                 <section key={ id }>
+                   <Link
+                     data-testid="product-detail-link"
+                     to={ `/product/${id}` }
+                   >
+                     <ProductCard
+                       title={ title }
+                       price={ price }
+                       thumbnail={ thumbnail }
+                     />
+                   </Link>
+                   <button
+                     type="button"
+                     data-testid="product-add-to-cart"
+                     onClick={ this.onEventClickCart }
+                   >
+                     Adicionar ao carrinho
+                   </button>
+                 </section>
+               ))}
              </div>
            )}
          <aside>
