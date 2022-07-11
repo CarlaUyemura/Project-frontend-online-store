@@ -1,9 +1,9 @@
 /* Victor */
 
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CartProductCard from './CartProductCard';
+import Header from './Header';
 
 class Cart extends Component {
   render() {
@@ -13,7 +13,7 @@ class Cart extends Component {
     );
     return (
       <div>
-        <Link to="/">Menu principal</Link>
+        <Header />
         <br />
         { cartProducts.length > 0
           ? cartProducts.map(({ id, price, title, thumbnail, quantity }) => (

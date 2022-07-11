@@ -6,6 +6,7 @@ import { getProductsFromCategoryAndQuery,
   getCategories,
   getProductsQuery } from '../services/api';
 import CategoryCard from './CategoryCard';
+import Header from './Header';
 
 class Search extends React.Component {
   constructor() {
@@ -68,27 +69,25 @@ class Search extends React.Component {
          </div>);
      return (
        <div>
+         <Header />
+         <br />
          <input
+           className="Input"
            type="text"
            data-testid="query-input"
            onChange={ this.onInputChange }
            value={ table }
          />
          <button
+           className="Button"
            type="button"
            data-testid="query-button"
            onClick={ this.onHandleClick }
          >
            Search
          </button>
-
-         <button
-           data-testid="shopping-cart-button"
-           type="button"
-           onClick={ this.handleCartButton }
-         >
-           Ver carrinho de compras
-         </button>
+         <br />
+         <br />
          {products.length === 0
            ? (flagResult)
            : (
