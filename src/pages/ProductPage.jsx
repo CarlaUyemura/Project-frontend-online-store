@@ -8,11 +8,16 @@ class ProductPage extends React.Component {
     super();
     this.state = {
       product: {},
+      email: '',
+      rating: '',
+      message: '',
+      evaluations: []
     };
   }
 
   componentDidMount() {
     this.fetchProductInfo();
+    this.getEvaluations()
   }
 
   fetchProductInfo = async () => {
@@ -28,9 +33,32 @@ class ProductPage extends React.Component {
     history.push('/cart');
   }
 
+  handleChange = ({ target }) => {
+    const { name, value } = target
+    this.setState({
+      [name]: value
+    })
+  }
+
+  saveEvaluation = () => {
+    const { email, rating, message } = this.state
+    const newEvaluation = { email, rating, message }
+    // const evaluationTotal = JSON.parse(localStorage.getItem('evaluation'))
+    // const finalData = [...evaluationTotal, newEvaluation]
+    localStorage.setItem('evaluation', JSON.stringify(newEvaluation))
+  }
+
+  getEvaluations = () => {
+    const evaluationList = JSON.parse(localStorage.getItem('evaluation'))
+    this.setState((prevState) => ({
+      evaluations: [ ...prevState.evaluations, evaluationList]
+    }))
+  }
+
   render() {
-    const { product: { id, title, thumbnail, price, warranty } } = this.state;
+    const { product: { id, title, thumbnail, price, warranty }, email, message, evaluations} = this.state;
     const { onClickAddProductToCartFromDetail, quantity, onInputChange } = this.props;
+    const rating = [1, 2, 3, 4, 5]
     return (
       <div>
         <p>Product Page</p>
@@ -62,6 +90,59 @@ class ProductPage extends React.Component {
         >
           Ver carrinho de compras
         </button>
+        <h3>Avaliações</h3>
+        <form>
+        <fieldset>
+        <input
+         data-testid="product-detail-email" 
+         type='email' 
+         name='email' 
+         placeholder='Email' 
+         value={ email } 
+         onChange={ this.handleChange }
+        />
+        { rating.map((element, index) => (
+          <label htmlFor={element} key={ element }>
+            Nota: {element}
+          <input
+           data-testid={`${index}-rating`}
+           type='radio' 
+           id={element} 
+           name='rating' 
+           value={ element }
+           onChange={ this.handleChange }
+          />
+        </label>
+        ))}
+        <br />
+        <textarea 
+          data-testid="product-detail-evaluation" 
+          placeholder='Mensagem (opcional)' 
+          cols='80' 
+          rows='8'
+          name='message'
+          value={ message }
+          onChange={ this.handleChange }
+        ></textarea>
+        <br />
+        <button 
+          data-testid="submit-review-btn" 
+          type='button'
+          onClick={this.saveEvaluation}
+        >
+          Avaliar
+        </button>
+        </fieldset>
+        </form>
+        <fieldset>
+          {evaluations.map(({ email, rating, message }) => (
+            <div key={email}>
+              <p>{email}</p>
+              <p>{rating}</p>
+              <p>{message}</p>
+            </div>
+          ))}
+        </fieldset>
       </div>
     );
   }
