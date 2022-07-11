@@ -6,6 +6,7 @@ import { getProductsFromCategoryAndQuery,
   getCategories,
   getProductsQuery } from '../services/api';
 import CategoryCard from './CategoryCard';
+import Header from './Header';
 
 class Search extends React.Component {
   constructor() {
@@ -58,6 +59,7 @@ class Search extends React.Component {
 
    render() {
      const { products, table, setSearch, categories } = this.state;
+     const { onClickAddProductToCartFromDetail } = this.props;
      const flagResult = setSearch
        ? <div>Nenhum produto foi encontrado</div>
        : (
@@ -68,43 +70,51 @@ class Search extends React.Component {
          </div>);
      return (
        <div>
+         <Header />
+         <br />
          <input
+           className="Input"
            type="text"
            data-testid="query-input"
            onChange={ this.onInputChange }
            value={ table }
          />
          <button
+           className="Button"
            type="button"
            data-testid="query-button"
            onClick={ this.onHandleClick }
          >
            Search
          </button>
-
-         <button
-           data-testid="shopping-cart-button"
-           type="button"
-           onClick={ this.handleCartButton }
-         >
-           Ver carrinho de compras
-         </button>
+         <br />
+         <br />
          {products.length === 0
            ? (flagResult)
            : (
              <div>
                {products.map(({ id, title, price, thumbnail }) => (
-                 <Link
-                   data-testid="product-detail-link"
-                   key={ id }
-                   to={ `/product/${id}` }
-                 >
-                   <ProductCard
-                     title={ title }
-                     price={ price }
-                     thumbnail={ thumbnail }
-                   />
-                 </Link>))}
+                 <section key={ id }>
+                   <Link
+                     data-testid="product-detail-link"
+                     to={ `/product/${id}` }
+                   >
+                     <ProductCard
+                       title={ title }
+                       price={ price }
+                       thumbnail={ thumbnail }
+                     />
+                   </Link>
+                   <button
+                     type="button"
+                     data-testid="product-add-to-cart"
+                     onClick={ onClickAddProductToCartFromDetail }
+                     id={ id }
+                   >
+                     Adicionar ao carrinho
+                   </button>
+                 </section>
+               ))}
              </div>
            )}
          <aside>
@@ -128,6 +138,7 @@ Search.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-};
+  onClickAddProductToCartFromDetail: PropTypes.func,
+}.isRequired;
 
 export default Search;
