@@ -67,7 +67,14 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <Switch>
-          <Route exact path="/" component={ Search } />
+          <Route
+            exact
+            path="/"
+            render={ (props) => (<Search
+              { ...props }
+              onClickAddProductToCartFromDetail={ this.onClickAddProductToCartFromDetail }
+            />) }
+          />
           <Route
             exact
             path="/product/:id"
