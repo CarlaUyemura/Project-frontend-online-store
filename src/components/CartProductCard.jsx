@@ -6,14 +6,16 @@ class CartProductCard extends Component {
     const { title, price, quantity, thumbnail } = this.props;
     return (
       <div>
-        <img src={ thumbnail } alt={ title } />
-        <h3 data-testid="shopping-cart-product-name">{title}</h3>
-        <h4>
-          {`R$ ${price}`}
-        </h4>
-        <h5 data-testid="shopping-cart-product-quantity">
-          {`Quantidade de itens no carrinho: ${quantity}`}
-        </h5>
+        <div className="CartProductCardClass">
+          <img src={ thumbnail } alt={ title } />
+          <h3 data-testid="shopping-cart-product-name">{title}</h3>
+          <h4>
+            {`R$ ${price}`}
+          </h4>
+          <h5 data-testid="shopping-cart-product-quantity">
+            {`Quantidade de itens no carrinho: ${quantity}`}
+          </h5>
+        </div>
       </div>
     );
   }
