@@ -30,7 +30,7 @@ export default class Checkout extends Component {
 
           <label htmlFor="email">
             <input
-              type="email"
+              type="text"
               data-testid="checkout-email"
               name="inputEmail"
               id="email"
@@ -41,7 +41,7 @@ export default class Checkout extends Component {
 
           <label htmlFor="cpf">
             <input
-              type="number"
+              type="text"
               data-testid="checkout-cpf"
               name="inputCPF"
               id="cpf"
@@ -52,7 +52,7 @@ export default class Checkout extends Component {
 
           <label htmlFor="telefone">
             <input
-              type="number"
+              type="text"
               data-testid="checkout-phone"
               name="inputPhone"
               id="telefone"
@@ -63,7 +63,7 @@ export default class Checkout extends Component {
 
           <label htmlFor="cep">
             <input
-              type="number"
+              type="text"
               data-testid="checkout-cep"
               name="inputCEP"
               id="cep"
