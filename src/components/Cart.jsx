@@ -32,13 +32,15 @@ class Cart extends Component {
 }
 
 Cart.propTypes = {
-  cartProducts: PropTypes.shape({
-    length: PropTypes.func.isRequired,
-    map: PropTypes.func.isRequired,
-    price: PropTypes.number.isRequired,
-    thumbnail: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-  }).isRequired,
+  cartProducts: PropTypes.arrayOf(
+    PropTypes.shape({
+      length: PropTypes.func.isRequired,
+      map: PropTypes.func.isRequired,
+      price: PropTypes.number.isRequired,
+      thumbnail: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 export default Cart;

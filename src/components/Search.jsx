@@ -59,6 +59,7 @@ class Search extends React.Component {
 
    render() {
      const { products, table, setSearch, categories } = this.state;
+     const { onClickAddProductToCartFromDetail } = this.props;
      const flagResult = setSearch
        ? <div>Nenhum produto foi encontrado</div>
        : (
@@ -93,17 +94,27 @@ class Search extends React.Component {
            : (
              <div>
                {products.map(({ id, title, price, thumbnail }) => (
-                 <Link
-                   data-testid="product-detail-link"
-                   key={ id }
-                   to={ `/product/${id}` }
-                 >
-                   <ProductCard
-                     title={ title }
-                     price={ price }
-                     thumbnail={ thumbnail }
-                   />
-                 </Link>))}
+                 <section key={ id }>
+                   <Link
+                     data-testid="product-detail-link"
+                     to={ `/product/${id}` }
+                   >
+                     <ProductCard
+                       title={ title }
+                       price={ price }
+                       thumbnail={ thumbnail }
+                     />
+                   </Link>
+                   <button
+                     type="button"
+                     data-testid="product-add-to-cart"
+                     onClick={ onClickAddProductToCartFromDetail }
+                     id={ id }
+                   >
+                     Adicionar ao carrinho
+                   </button>
+                 </section>
+               ))}
              </div>
            )}
          <aside>
@@ -127,6 +138,7 @@ Search.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-};
+  onClickAddProductToCartFromDetail: PropTypes.func,
+}.isRequired;
 
 export default Search;
