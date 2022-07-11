@@ -23,8 +23,14 @@ class ProductPage extends React.Component {
     });
   }
 
+  handleCartButton = () => {
+    const { history } = this.props;
+    history.push('/cart');
+  }
+
   render() {
-    const { product: { title, thumbnail, price, warranty } } = this.state;
+    const { product: { id, title, thumbnail, price, warranty } } = this.state;
+    const { onClickAddProductToCartFromDetail, quantity, onInputChange } = this.props;
     return (
       <div>
         <p>Product Page</p>
@@ -33,6 +39,29 @@ class ProductPage extends React.Component {
         <p>{`R$ ${price}`}</p>
         <img src={ thumbnail } alt={ title } />
         <p>{warranty}</p>
+        <button
+          data-testid="product-detail-add-to-cart"
+          type="button"
+          id={ id }
+          onClick={ onClickAddProductToCartFromDetail }
+        >
+          Adicionar ao carrinho
+        </button>
+        <input
+          type="number"
+          min={ 1 }
+          placeholder="Quantidade desejada de itens"
+          name="quantity"
+          value={ quantity }
+          onChange={ onInputChange }
+        />
+        <button
+          data-testid="shopping-cart-button"
+          type="button"
+          onClick={ this.handleCartButton }
+        >
+          Ver carrinho de compras
+        </button>
       </div>
     );
   }
@@ -43,6 +72,12 @@ ProductPage.propTypes = {
     params: PropTypes.shape({
       id: PropTypes.string,
     }),
+  }).isRequired,
+  quantity: PropTypes.number.isRequired,
+  onClickAddProductToCartFromDetail: PropTypes.func.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
   }).isRequired,
 };
 

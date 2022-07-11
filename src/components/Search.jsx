@@ -44,11 +44,11 @@ class Search extends React.Component {
   }
 
   onHandleClick = async () => {
-    const { products } = this.state;
     const { table } = this.state;
     const data = await getProductsQuery(table);
     const resultData = data.results;
-    this.setState({ products: resultData, setSearch: true }, () => console.log(products));
+    console.log(resultData);
+    this.setState({ products: resultData, setSearch: true });
   }
 
    handleCartButton = () => {
