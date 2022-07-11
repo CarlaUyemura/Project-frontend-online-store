@@ -12,20 +12,37 @@ class App extends React.Component {
 
     this.state = {
       productsAddedToCart: [],
+      quantity: 1,
     };
+  }
+
+  componentDidUpdate() {
+    this.turnNaNIntoZero();
+  }
+
+  onInputChange = ({ target }) => {
+    const { value, name } = target;
+
+    this.setState({ [name]: parseInt(value, 10) });
+  }
+
+  turnNaNIntoZero = () => {
+    const { quantity } = this.state;
+    if (Number.isNaN(quantity)) { this.setState({ quantity: 1 }); }
   }
 
   onClickAddProductToCartFromDetail = async ({ target: { id } }) => {
     const addedProduct = await getProductById(id);
+    const { quantity } = this.state;
+    addedProduct.quantity = quantity;
 
     this.setState((prevState) => ({
       productsAddedToCart: [...prevState.productsAddedToCart, addedProduct],
     }));
-    console.log(id);
   }
 
   render() {
-    const { productsAddedToCart } = this.state;
+    const { quantity, productsAddedToCart } = this.state;
     return (
       <BrowserRouter>
         <Switch>
@@ -36,6 +53,8 @@ class App extends React.Component {
             render={ (props) => (<ProductPage
               { ...props }
               onClickAddProductToCartFromDetail={ this.onClickAddProductToCartFromDetail }
+              quantity={ quantity }
+              onInputChange={ this.onInputChange }
             />) }
           />
           <Route
@@ -43,6 +62,7 @@ class App extends React.Component {
             render={ (props) => (<Cart
               { ...props }
               cartProducts={ productsAddedToCart }
+              itemsQuantity={ quantity }
             />) }
           />
         </Switch>

@@ -7,7 +7,7 @@ import CartProductCard from './CartProductCard';
 
 class Cart extends Component {
   render() {
-    const { cartProducts, quantity } = this.props;
+    const { cartProducts } = this.props;
     const noProductsMessage = (
       <span data-testid="shopping-cart-empty-message">Seu carrinho está vazio</span>
     );
@@ -16,7 +16,7 @@ class Cart extends Component {
         <Link to="/">Menu principal</Link>
         <br />
         { cartProducts.length > 0
-          ? cartProducts.map(({ id, price, title, thumbnail }) => (
+          ? cartProducts.map(({ id, price, title, thumbnail, quantity }) => (
             <CartProductCard
               key={ id }
               quantity={ quantity }

@@ -11,7 +11,9 @@ class CartProductCard extends Component {
         <h4>
           {`R$ ${price}`}
         </h4>
-        <h5 data-testid="shopping-cart-product-quantity">{quantity}</h5>
+        <h5 data-testid="shopping-cart-product-quantity">
+          {`Quantidade de itens no carrinho: ${quantity}`}
+        </h5>
       </div>
     );
   }
