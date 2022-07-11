@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import ProductCard from './ProductCard';
-import { getProductsFromCategoryAndQuery, getCategories } from '../services/api';
+import { getProductsFromCategoryAndQuery,
+  getCategories,
+  getProductsQuery } from '../services/api';
 import CategoryCard from './CategoryCard';
 
 class Search extends React.Component {
@@ -27,6 +30,14 @@ class Search extends React.Component {
     });
   }
 
+  onRadioChange = async ({ target }) => {
+    const { products } = this.state;
+    const objResponse = await getProductsFromCategoryAndQuery(target.id, target.value);
+    this.setState({
+      products: objResponse.results,
+    }, () => console.log(products));
+  }
+
   onInputChange = ({ target }) => {
     const { value } = target;
     this.setState({ table: value });
@@ -34,7 +45,7 @@ class Search extends React.Component {
 
   onHandleClick = async () => {
     const { table } = this.state;
-    const data = await getProductsFromCategoryAndQuery(table);
+    const data = await getProductsQuery(table);
     const resultData = data.results;
     console.log(resultData);
     this.setState({ products: resultData, setSearch: true });
@@ -83,12 +94,17 @@ class Search extends React.Component {
            : (
              <div>
                {products.map(({ id, title, price, thumbnail }) => (
-                 <ProductCard
+                 <Link
+                   data-testid="product-detail-link"
                    key={ id }
-                   title={ title }
-                   price={ price }
-                   thumbnail={ thumbnail }
-                 />))}
+                   to={ `/product/${id}` }
+                 >
+                   <ProductCard
+                     title={ title }
+                     price={ price }
+                     thumbnail={ thumbnail }
+                   />
+                 </Link>))}
              </div>
            )}
          <aside>
@@ -98,6 +114,7 @@ class Search extends React.Component {
                  key={ id }
                  id={ id }
                  name={ name }
+                 onRadioChange={ this.onRadioChange }
                />
              ))
            }
