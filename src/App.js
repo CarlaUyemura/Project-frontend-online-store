@@ -5,6 +5,7 @@ import Search from './components/Search';
 import ProductPage from './pages/ProductPage';
 import Cart from './components/Cart';
 import { getProductById } from './services/api';
+import Checkout from './components/Checkout';
 
 class App extends React.Component {
   constructor() {
@@ -13,6 +14,12 @@ class App extends React.Component {
     this.state = {
       productsAddedToCart: [],
       quantity: 1,
+      inputFullName: '',
+      inputCEP: 0,
+      inputCPF: 0,
+      inputEmail: '',
+      inputEndereco: '',
+      inputPhone: 0,
     };
   }
 
@@ -24,6 +31,11 @@ class App extends React.Component {
     const { value, name } = target;
 
     this.setState({ [name]: parseInt(value, 10) });
+  }
+
+  onInputChangeForm = ({ target }) => {
+    const { value, name } = target;
+    this.setState({ [name]: value });
   }
 
   turnNaNIntoZero = () => {
@@ -42,7 +54,16 @@ class App extends React.Component {
   }
 
   render() {
-    const { quantity, productsAddedToCart } = this.state;
+    const {
+      quantity,
+      productsAddedToCart,
+      inputFullName,
+      inputCEP,
+      inputCPF,
+      inputEmail,
+      inputEndereco,
+      inputPhone } = this.state;
+
     return (
       <BrowserRouter>
         <Switch>
@@ -63,6 +84,20 @@ class App extends React.Component {
               { ...props }
               cartProducts={ productsAddedToCart }
               itemsQuantity={ quantity }
+            />) }
+          />
+          <Route
+            path="/checkout"
+            render={ (props) => (<Checkout
+              { ...props }
+              onInputChangeForm={ this.onInputChangeForm }
+              inputFullName={ inputFullName }
+              inputCEP={ inputCEP }
+              inputCPF={ inputCPF }
+              inputEmail={ inputEmail }
+              inputPhone={ inputPhone }
+              inputEndereco={ inputEndereco }
+              onClickAddProductToCartFromDetail={ this.onClickAddProductToCartFromDetail }
             />) }
           />
         </Switch>
