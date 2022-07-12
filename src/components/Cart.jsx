@@ -17,13 +17,23 @@ class Cart extends Component {
         <Header />
         <br />
         { cartProducts.length > 0
-          ? cartProducts.map(({ id, price, title, thumbnail, quantity }) => (
+          ? cartProducts.map((
+            {
+              id,
+              price,
+              title,
+              thumbnail,
+              quantity,
+              available_quantity: availableQuantity,
+            },
+          ) => (
             <CartProductCard
               key={ id }
               quantity={ quantity }
               price={ price }
               thumbnail={ thumbnail }
               title={ title }
+              availableQuantity={ availableQuantity }
             />
           ))
           : noProductsMessage }

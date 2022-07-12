@@ -20,7 +20,8 @@ a {
 
 .CartProductCardClass {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
+  width: 60%;
 }
 
 .Header {

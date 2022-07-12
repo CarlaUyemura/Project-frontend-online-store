@@ -27,8 +27,10 @@ class CartProductCard extends Component {
   }
 
   increaseQuantity = () => {
+    const { availableQuantity } = this.props
+    console.log(availableQuantity);
     this.setState((prevQuantity) => ({
-      result: prevQuantity.result + 1,
+      result: prevQuantity.result < availableQuantity ? prevQuantity.result + 1 : availableQuantity,
     }));
   }
 
@@ -43,6 +45,7 @@ class CartProductCard extends Component {
       title,
       price,
       thumbnail,
+      availableQuantity,
     } = this.props;
 
     const { result } = this.state;
@@ -55,6 +58,7 @@ class CartProductCard extends Component {
           <h4>
             {`R$ ${price}`}
           </h4>
+          <p>{`Quantidade ${availableQuantity}`}</p>
           <button
             type="button"
             data-testid="product-decrease-quantity"
@@ -84,6 +88,7 @@ CartProductCard.propTypes = {
   price: PropTypes.number.isRequired,
   quantity: PropTypes.number.isRequired,
   thumbnail: PropTypes.string.isRequired,
+  availableQuantity: PropTypes.number.isRequired,
 };
 
 export default CartProductCard;
