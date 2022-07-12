@@ -48,3 +48,50 @@ a {
   border-radius: 1vh;
   padding: 1vh;
 }
+
+.quantity {
+  border: 1px solid black;
+  border-radius: 100%;
+  font-size: 20px;
+  height: 30px;
+  text-align: center;
+  width: 30px;
+}
+
+main {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.container-product {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px 0;
+  justify-content: space-between;
+  width: 80%;
+}
+
+aside {
+  padding: 20px;
+  width: 300px;
+}
+
+.product-card {
+  align-items: center;
+  background-color: #e4e4e4;
+  border-radius: 10px;
+  box-shadow: 3px 3px 5px 1px rgb(146, 146, 146);
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  justify-content: space-around;
+  padding: 15px;
+  text-align: center;
+  width: 250px;
+}
+
+img {
+  max-height: 100px;
+  max-width: 100px;
+}
