@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import CartProductCard from './CartProductCard';
 import Header from './Header';
 
@@ -26,6 +27,10 @@ class Cart extends Component {
             />
           ))
           : noProductsMessage }
+
+        <Link to="/checkout" data-testid="checkout-products">
+          Finalizar Compra
+        </Link>
       </div>
     );
   }

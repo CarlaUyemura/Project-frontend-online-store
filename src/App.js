@@ -5,6 +5,7 @@ import Search from './components/Search';
 import ProductPage from './pages/ProductPage';
 import Cart from './components/Cart';
 import { getProductsFromCategoryAndQuery, getProductsQuery } from './services/api';
+import Checkout from './components/Checkout';
 
 class App extends React.Component {
   constructor() {
@@ -15,6 +16,12 @@ class App extends React.Component {
       quantity: 1,
       products: [],
       setSearch: false,
+      inputFullName: '',
+      inputCEP: 0,
+      inputCPF: 0,
+      inputEmail: '',
+      inputEndereco: '',
+      inputPhone: 0,
     };
   }
 
@@ -44,6 +51,11 @@ class App extends React.Component {
     this.setState({ [name]: parseInt(value, 10) });
   }
 
+  onInputChangeForm = ({ target }) => {
+    const { value, name } = target;
+    this.setState({ [name]: value });
+  }
+
   turnNaNIntoZero = () => {
     const { quantity } = this.state;
     if (Number.isNaN(quantity)) { this.setState({ quantity: 1 }); }
@@ -62,7 +74,15 @@ class App extends React.Component {
   }
 
   render() {
-    const { quantity, productsAddedToCart, products, setSearch } = this.state;
+    const {
+      quantity,
+      productsAddedToCart,
+      inputFullName,
+      inputCEP,
+      inputCPF,
+      inputEmail,
+      inputEndereco,
+      inputPhone, products, setSearch } = this.state;
     return (
       <BrowserRouter>
         <Switch>
@@ -96,6 +116,20 @@ class App extends React.Component {
               itemsQuantity={ quantity }
               decreaseQuantity={ this.decreaseQuantity }
               increaseQuantity={ this.increaseQuantity }
+            />) }
+          />
+          <Route
+            path="/checkout"
+            render={ (props) => (<Checkout
+              { ...props }
+              onInputChangeForm={ this.onInputChangeForm }
+              inputFullName={ inputFullName }
+              inputCEP={ inputCEP }
+              inputCPF={ inputCPF }
+              inputEmail={ inputEmail }
+              inputPhone={ inputPhone }
+              inputEndereco={ inputEndereco }
+              onClickAddProductToCartFromDetail={ this.onClickAddProductToCartFromDetail }
             />) }
           />
         </Switch>
