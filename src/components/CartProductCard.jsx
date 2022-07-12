@@ -27,10 +27,12 @@ class CartProductCard extends Component {
   }
 
   increaseQuantity = () => {
-    const { availableQuantity } = this.props
-    console.log(availableQuantity);
+    const { availableQuantity } = this.props;
     this.setState((prevQuantity) => ({
-      result: prevQuantity.result < availableQuantity ? prevQuantity.result + 1 : availableQuantity,
+      result: prevQuantity.result
+      < availableQuantity
+        ? prevQuantity.result + 1
+        : availableQuantity,
     }));
   }
 
