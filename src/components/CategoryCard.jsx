@@ -10,7 +10,6 @@ class CategoryCard extends React.Component {
           htmlFor={ id }
           data-testid="category"
         >
-          {name}
           <input
             type="radio"
             name="category"
@@ -18,6 +17,7 @@ class CategoryCard extends React.Component {
             id={ id }
             onChange={ onRadioChange }
           />
+          {name}
         </label>
       </div>
     );

@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Search from './components/Search';
 import ProductPage from './pages/ProductPage';
 import Cart from './components/Cart';
-import { getProductById } from './services/api';
+import { getProductsFromCategoryAndQuery, getProductsQuery } from './services/api';
 
 class App extends React.Component {
   constructor() {
@@ -13,11 +13,29 @@ class App extends React.Component {
     this.state = {
       productsAddedToCart: [],
       quantity: 1,
+      products: [],
+      setSearch: false,
     };
   }
 
   componentDidUpdate() {
     this.turnNaNIntoZero();
+  }
+
+  onRadioChange = async ({ target }) => {
+    const { products } = this.state;
+    const objResponse = await getProductsFromCategoryAndQuery(target.id, target.value);
+    this.setState({
+      products: objResponse.results,
+    }, () => console.log(products));
+  }
+
+  onHandleClick = async () => {
+    const { table } = this.state;
+    const data = await getProductsQuery(table);
+    const resultData = data.results;
+    console.log(resultData);
+    this.setState({ products: resultData, setSearch: true });
   }
 
   onInputChange = ({ target }) => {
@@ -32,17 +50,19 @@ class App extends React.Component {
   }
 
   onClickAddProductToCartFromDetail = async ({ target: { id } }) => {
-    const addedProduct = await getProductById(id);
-    const { quantity } = this.state;
+    const { quantity, productsAddedToCart, products } = this.state;
+    const teste = productsAddedToCart.some((item) => item.id === id);
+    const addedProduct = products.find((item) => id === item.id);
     addedProduct.quantity = quantity;
-
-    this.setState((prevState) => ({
-      productsAddedToCart: [...prevState.productsAddedToCart, addedProduct],
-    }));
+    if (!teste) {
+      this.setState((prevState) => ({
+        productsAddedToCart: [...prevState.productsAddedToCart, addedProduct],
+      }));
+    }
   }
 
   render() {
-    const { quantity, productsAddedToCart } = this.state;
+    const { quantity, productsAddedToCart, products, setSearch } = this.state;
     return (
       <BrowserRouter>
         <Switch>
@@ -52,6 +72,11 @@ class App extends React.Component {
             render={ (props) => (<Search
               { ...props }
               onClickAddProductToCartFromDetail={ this.onClickAddProductToCartFromDetail }
+              products={ products }
+              onHandleClick={ this.onHandleClick }
+              onInputChange={ this.onInputChange }
+              onRadioChange={ this.onRadioChange }
+              setSearch={ setSearch }
             />) }
           />
           <Route
@@ -61,7 +86,6 @@ class App extends React.Component {
               { ...props }
               onClickAddProductToCartFromDetail={ this.onClickAddProductToCartFromDetail }
               quantity={ quantity }
-              onInputChange={ this.onInputChange }
             />) }
           />
           <Route
@@ -70,6 +94,8 @@ class App extends React.Component {
               { ...props }
               cartProducts={ productsAddedToCart }
               itemsQuantity={ quantity }
+              decreaseQuantity={ this.decreaseQuantity }
+              increaseQuantity={ this.increaseQuantity }
             />) }
           />
         </Switch>

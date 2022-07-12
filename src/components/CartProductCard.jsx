@@ -2,8 +2,51 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class CartProductCard extends Component {
+  constructor() {
+    super();
+    this.state = {
+      result: 1,
+    };
+  }
+
+  componentDidMount() {
+    this.capturaQuantity();
+  }
+
+  capturaQuantity = () => {
+    const { quantity } = this.props;
+    if (quantity) {
+      this.setState({
+        result: quantity,
+      });
+    } else {
+      this.setState({
+        result: 1,
+      });
+    }
+  }
+
+  increaseQuantity = () => {
+    this.setState((prevQuantity) => ({
+      result: prevQuantity.result + 1,
+    }));
+  }
+
+  decreaseQuantity = () => {
+    this.setState((prevQuantity) => ({
+      result: prevQuantity.result === 1 ? 1 : prevQuantity.result - 1,
+    }));
+  }
+
   render() {
-    const { title, price, quantity, thumbnail } = this.props;
+    const {
+      title,
+      price,
+      thumbnail,
+    } = this.props;
+
+    const { result } = this.state;
+
     return (
       <div>
         <div className="CartProductCardClass">
@@ -12,9 +55,24 @@ class CartProductCard extends Component {
           <h4>
             {`R$ ${price}`}
           </h4>
-          <h5 data-testid="shopping-cart-product-quantity">
-            {`Quantidade de itens no carrinho: ${quantity}`}
+          <button
+            type="button"
+            data-testid="product-decrease-quantity"
+            onClick={ this.decreaseQuantity }
+          >
+            -
+          </button>
+          <h5 data-testid="shopping-cart-product-quantity" className="quantity">
+            {result}
           </h5>
+          <button
+            type="button"
+            data-testid="product-increase-quantity"
+            onClick={ this.increaseQuantity }
+          >
+            +
+
+          </button>
         </div>
       </div>
     );
