@@ -9,6 +9,7 @@ class ProductPage extends React.Component {
     super();
     this.state = {
       product: {},
+      ship: false,
       email: '',
       rating: '',
       message: '',
@@ -26,6 +27,7 @@ class ProductPage extends React.Component {
     const response = await getProductById(id);
     this.setState({
       product: response,
+      ship: response.shipping.free_shipping,
     });
   }
 
@@ -61,6 +63,7 @@ class ProductPage extends React.Component {
 
   render() {
     const { product: { id, title, thumbnail, price, warranty },
+      ship,
       email,
       message,
       evaluations } = this.state;
@@ -83,6 +86,7 @@ class ProductPage extends React.Component {
         <p>{`R$ ${price}`}</p>
         <img src={ thumbnail } alt={ title } />
         <p>{warranty}</p>
+        {ship ? <p data-testid="free-shipping">Frete Grátis</p> : ''}
         <button
           className="Button"
           data-testid="product-detail-add-to-cart"

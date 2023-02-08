@@ -89,7 +89,7 @@ class Search extends React.Component {
              ? (flagResult)
              : (
                <div className="container-product">
-                 {products.map(({ id, title, price, thumbnail }) => (
+                 {products.map(({ id, title, price, thumbnail, shipping }) => (
                    <section key={ id } className="product-card">
                      <Link
                        data-testid="product-detail-link"
@@ -99,6 +99,7 @@ class Search extends React.Component {
                          title={ title }
                          price={ price }
                          thumbnail={ thumbnail }
+                         shipping={ shipping.free_shipping }
                        />
                      </Link>
                      <button

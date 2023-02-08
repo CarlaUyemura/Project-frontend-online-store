@@ -30,11 +30,10 @@ class App extends React.Component {
   }
 
   onRadioChange = async ({ target }) => {
-    const { products } = this.state;
     const objResponse = await getProductsFromCategoryAndQuery(target.id, target.value);
     this.setState({
       products: objResponse.results,
-    }, () => console.log(products));
+    });
   }
 
   onHandleClick = async () => {
